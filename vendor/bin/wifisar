@@ -1,0 +1,1340 @@
+#!/vendor/bin/sh
+
+SAR_EXEC_FILE="/vendor/bin/vendor_cmd_tool"
+SAR_CFG_FILE="/vendor/etc/wifi/sar-vendor-cmd.xml"
+
+
+WIFI_SAR_DISABLE_CMD_BODY="--ENABLE 5 --NUM_SPECS 0 --END_CMD"
+
+# Note element rule:
+# 1. --NUM_SPECS should equal exactly item number;
+# 2. Please not modify exist rules, just add new rule for specific country/reg,
+#    for add new rules, you should be carefuly about below:
+# 	1) Notice BAND\CHAIN\MOD info;
+# 	2) Notice POW, the unit is 0.5dBm;
+# 	3) Notice always check NUM_SPECS value, it MUST equal item numbers.
+# 3. Rule 0 is an example, you should NEVER modify it;
+# 4. sarIdx should match enum "SwitchWifiSar" index defined in OemProximitySensorManager.java.
+
+###################### MONA 19375 and 19376 Project ######################
+############## Japen ##############
+WIFI_SAR_SETTING_19375_19376_JP=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 29 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 29 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, 5G band1+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, 5G band1+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, 5G band2+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, 5G band2+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, 5G band3+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, 5G band3+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 5G band4+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 5G band4+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+############## CE Country ##############
+WIFI_SAR_SETTING_19375_19376_CE=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 29 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 29 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, 5G band1+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, 5G band1+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, 5G band2+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, 5G band2+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+############## FCC Country ##############
+WIFI_SAR_SETTING_19375_19376_FCC=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 29 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 29 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, 5G band1+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, 5G band1+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, 5G band2+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, 5G band2+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, 5G band3+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 29 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, 5G band3+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 29 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 5G band4+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 5G band4+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+
+###################### Homer wifisar ######################
+###################### India 19571/19575/19578 ######################
+## 10 < sarIdx <= 18
+WIFI_SAR_SETTING_19571_19575_19578_IN=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For head sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For head sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For head sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For head sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+###################### Asia Pacific 19571/19575 ######################
+## 19 <= sarIdx <= 34
+WIFI_SAR_SETTING_19571_19575_AP=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:11 -- For head sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:12 -- For body sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:13 -- For head sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:14 -- For body sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:15 -- For head sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:16 -- For body sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+###################### Asia Pacific 19570/19576 ######################
+## 35 <= sarIdx <= 50
+WIFI_SAR_SETTING_19570_19576_AP=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 27 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 25 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:11 -- For head sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:12 -- For body sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:13 -- For head sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:14 -- For body sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:15 -- For head sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 25 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:16 -- For body sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 21 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+###################### Asia Pacific 19572/19577 ######################
+## 51 <= sarIdx <= 66
+WIFI_SAR_SETTING_19572_19577_AP=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:11 -- For head sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:12 -- For body sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:13 -- For head sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:14 -- For body sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:15 -- For head sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:16 -- For body sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+###################### Asia Pacific 19573 ######################
+## 67 <= sarIdx <= 82
+WIFI_SAR_SETTING_19573_AP=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 30--END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:11 -- For head sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:12 -- For body sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:13 -- For head sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:14 -- For body sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:15 -- For head sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:16 -- For body sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+###################### Europe Pacific 19579 ######################
+## 83 <= sarIdx <= 98
+WIFI_SAR_SETTING_19579_EU=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 18 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 18 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:11 -- For head sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 18 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:12 -- For body sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 14 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:13 -- For head sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 16 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:14 -- For body sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 14 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:15 -- For head sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:16 -- For body sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 18 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+###################### Europe Pacific 19573 ######################
+## 99 <= sarIdx <= 114
+WIFI_SAR_SETTING_19573_EU=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 18 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 18 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:11 -- For head sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 18 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:12 -- For body sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 14 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:13 -- For head sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 14 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:14 -- For body sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 14 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:15 -- For head sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:16 -- For body sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 18 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+###################### Mexico 19573 ######################
+## 115 <= sarIdx <= 130
+WIFI_SAR_SETTING_19573_MX=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:1 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For body sar, wifi 5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For head sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, wifi 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 32 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For body sar, wifi 5G band4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For head sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:10 -- For body sar, 2.4G + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:11 -- For head sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:12 -- For body sar, wifi 5G band1/2 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:13 -- For head sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 22 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:14 -- For body sar, wifi 5G band3 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 20 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:15 -- For head sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:16 -- For body sar, wifi 5G band4 + GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --MOD 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+WIFI_SAR_SETTING_UPGRADE=(
+## get detail information from 80-ya512-12_yd_wcn39xx_wlan_coexistence_software_user_guide.pdf
+## sarIdx:0 -- 2.4G/5G both (example, should NEVER use/modify it)
+"--ENABLE 6 --NUM_SPECS 4 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 0 --CHAIN 1 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 0 --POW 28 --END_ATTR \
+--NESTED_AUTO --BAND 1 --CHAIN 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+###################### Europe ######################
+#
+## sarIdx:1 -- For head sar, 2.4G or 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:2 -- For body sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 32 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:3 -- For head sar, 5G band1/2/4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 32 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:4 -- For head/body sar, 5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:5 -- For body sar, 5G band1/2/4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:6 -- For body sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:7 -- For head sar, GSM+5G band1/2/4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:8 -- For head sar, GSM+5G band3
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 26 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:9 -- For body sar, GSM+5G band1/2/3/4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+###################### CE ######################
+#
+## sarIdx:10 -- For head/body sar, GSM+5G band1/2/3/4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:11 -- For CE head sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:12 -- For CE body sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 30 --END_ATTR \
+--END_ATTR --END_CMD"
+###################### IN ######################
+#
+## sarIdx:13 -- For head sar, 2.4G
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 32 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:14 -- For head sar, 5G band1/2/3/4 or GSM+5G band3/4
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 24 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:15 -- For head sar, GSM+5G band1/2
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 1 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+
+## sarIdx:16 -- For india head sar, 2.4G+GSM
+"--ENABLE 6 --NUM_SPECS 1 \
+--SAR_SPEC \
+--NESTED_AUTO --BAND 0 --POW 28 --END_ATTR \
+--END_ATTR --END_CMD"
+)
+
+# temp static value, should get from sysfs based on STA/SAP on/off status
+# for android O, interface of SAP is softap0
+get_wifi_iface() {
+	echo "wlan0"
+}
+
+build_cmd_header() {
+	iface="$(get_wifi_iface)"
+	echo "-f $SAR_CFG_FILE -i $iface --START_CMD --SAR_SET"
+}
+
+build_cmd_body() {
+    sarIdx="$1"
+    prjVer="$2"
+
+    # disable sar cmd body
+    [ "0" -eq "$sarIdx" ] && echo "$WIFI_SAR_DISABLE_CMD_BODY" && return
+
+    case "$prjVer" in
+        # MONA 19375 and 19376 prpject
+        "19375" | "19376")
+            # Japen
+            if [ $sarIdx -ge 131 -a $sarIdx -le 140 ]; then
+                arraySize=${#WIFI_SAR_SETTING_19375_19376_JP[@]}
+                lengthIdx=`expr $sarIdx - 130`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19375_19376_JP[$lengthIdx]}"
+                    return
+                fi
+            # FCC country
+            elif [ "$sarIdx" -ge "141" -a "$sarIdx" -le "150" ]; then
+                arraySize=${#WIFI_SAR_SETTING_19375_19376_FCC[@]}
+                lengthIdx=`expr $sarIdx - 140`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19375_19376_FCC[$lengthIdx]}"
+                    return
+                fi
+            # CE country
+            elif [ "$sarIdx" -ge "151" -a "$sarIdx" -le "156" ]; then
+                arraySize=${#WIFI_SAR_SETTING_19375_19376_CE[@]}
+                lengthIdx=`expr $sarIdx - 150`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19375_19376_CE[$lengthIdx]}"
+                    return
+                fi
+            else
+                echo "invalid sarIdx"
+                return
+            fi
+            ;;
+        # Homer project
+        #India 19575/19578
+        "19571" | "19575" | "19578" )
+            if [ $sarIdx -ge 11 -a $sarIdx -le 18 ]; then
+                arraySize=${#WIFI_SAR_SETTING_19571_19575_19578_IN[@]}
+                lengthIdx=`expr $sarIdx - 10`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19571_19575_19578_IN[$lengthIdx]}"
+                    return
+                fi
+            elif [ "$sarIdx" -ge "19" -a "$sarIdx" -le "34" ]; then
+                arraySize=${#WIFI_SAR_SETTING_19571_19575_AP[@]}
+                lengthIdx=`expr $sarIdx - 18`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19571_19575_AP[$lengthIdx]}"
+                    return
+                fi
+            else
+                echo "invalid sarIdx"
+                return
+            fi
+            ;;
+        "19573")
+            if [ $sarIdx -ge 67 -a $sarIdx -le 82 ]; then
+                arraySize=${#WIFI_SAR_SETTING_19573_AP[@]}
+                lengthIdx=`expr $sarIdx - 66`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19573_AP[$lengthIdx]}"
+                    return
+                fi
+            elif [ $sarIdx -ge 99 -a $sarIdx -le 114 ]; then
+                arraySize=${#WIFI_SAR_SETTING_19573_EU[@]}
+                lengthIdx=`expr $sarIdx - 98`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19573_EU[$lengthIdx]}"
+                    return
+                fi
+            elif [ $sarIdx -ge 115 -a $sarIdx -le 130 ]; then
+                arraySize=${#WIFI_SAR_SETTING_19573_MX[@]}
+                lengthIdx=`expr $sarIdx - 114`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19573_MX[$lengthIdx]}"
+                    return
+                fi
+            else
+                echo "invalid sarIdx"
+                return
+            fi
+            ;;
+        "19570" | "19576" )
+            if [ $sarIdx -ge 35 -a $sarIdx -le 50 ]; then
+                arraySize=${#WIFI_SAR_SETTING_19570_19576_AP[@]}
+                lengthIdx=`expr $sarIdx - 34`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19570_19576_AP[$lengthIdx]}"
+                    return
+                fi
+            else
+                echo "invalid sarIdx"
+                return
+            fi
+            ;;
+        "19572" | "19577" )
+            if [ $sarIdx -ge 51 -a $sarIdx -le 66 ]; then
+                arraySize=${#WIFI_SAR_SETTING_19572_19577_AP[@]}
+                lengthIdx=`expr $sarIdx - 50`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19572_19577_AP[$lengthIdx]}"
+                    return
+                fi
+            else
+                echo "invalid sarIdx"
+                return
+            fi
+            ;;
+        "19579")
+            if [ $sarIdx -ge 83 -a $sarIdx -le 98 ]; then
+                arraySize=${#WIFI_SAR_SETTING_19579_EU[@]}
+                lengthIdx=`expr $sarIdx - 82`
+                if [ "$lengthIdx" -lt "$arraySize" ]; then
+                    echo "${WIFI_SAR_SETTING_19579_EU[$lengthIdx]}"
+                    return
+                fi
+            else
+                echo "invalid sarIdx"
+                return
+            fi
+            ;;
+        *)
+            arraySize=${#WIFI_SAR_SETTING_UPGRADE[@]}
+            lengthIdx=`expr $sarIdx - 156`
+            if [ "$lengthIdx" -lt "$arraySize" ]; then
+                echo "${WIFI_SAR_SETTING_UPGRADE[$lengthIdx]}"
+                return
+            fi
+            ;;
+        *)
+            echo "Project $prjVer not support now!!" > /dev/null
+            ;;
+    esac
+
+    # Normally we will never goto here, if process goes wrong, always disable sar.
+    echo "$WIFI_SAR_DISABLE_CMD_BODY"
+}
+
+build_cmd() {
+    cHdr="$(build_cmd_header)"
+    cBody="$(build_cmd_body $1 $2)"
+
+    echo "$cHdr $cBody"
+}
+
+apply_sar() {
+    cmd="$(build_cmd $1 $2)"
+    echo "cmd=$cmd"
+
+    $SAR_EXEC_FILE $cmd
+}
+
+project_version=$(getprop "ro.separate.soft")
+[ -z "$project_version" ] && return
+
+# Note:
+# 1. index of 1-n(n=arraySize-1) is for specific sar setting;
+# 2. index of 0 is for disabling sar.
+sarIdx=$(getprop "oppo.wifi.sar.idx" "0")
+echo "the wifisar is $sarIdx"
+
+apply_sar "$sarIdx" "$project_version"

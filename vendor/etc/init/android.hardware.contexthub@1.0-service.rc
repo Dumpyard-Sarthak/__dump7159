@@ -1,0 +1,7 @@
+#ifdef VENDOR_EDIT
+#Bo.Xiang@PSW.BSP.Sensor 2019/4/26 add to remove origin chre
+#service contexthub-hal-1-0 /vendor/bin/hw/android.hardware.contexthub@1.0-service
+#    class hal
+#    user system
+#    group system
+#endif

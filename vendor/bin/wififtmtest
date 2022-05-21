@@ -1,0 +1,7 @@
+#!/system/bin/sh
+
+svc wifi disable
+#add for bt test , disable bluetooth and ble scan
+svc bluetooth disable
+settings put global ble_scan_always_enabled 0
+ftmdaemon -n
