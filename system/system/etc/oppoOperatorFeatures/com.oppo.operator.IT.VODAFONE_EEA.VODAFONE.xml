@@ -1,0 +1,15 @@
+<!-- This file is used by Exp Region: IR.  DO NOT MODIFY. -->
+<permissions>
+  <feature name="oppo.commcenter.mms.remove.oppo.mms"/>
+  <feature name="oppo.mms.replace.google.mms"/>
+  <feature name="oppo.default.sms.application.google.messages"/>
+  <feature name="oppo.contacts.android.backup.restore.support"/>
+  <feature name="oppo.phone.show.google.emergencydialer"/>
+  <feature name="oppo.simsettings.set.default.card" />
+  <feature name="oppo.simsettings.show.vowifi.emergency.dialog" />
+  <feature name="oppo.wirelesssettings.apn.bearer.disable"/>
+  <feature name="oppo.simsettings.vf.hide.always.ask"/>
+  <feature name="oppo.phone.hide.repeat.callsetting" />
+  <feature name="oppo.assistantscreen.contact.hide" />
+  <feature name="oppo.smartdrive.disable.smartdrive" />
+</permissions>

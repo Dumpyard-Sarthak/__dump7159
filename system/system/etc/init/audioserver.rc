@@ -1,0 +1,26 @@
+service audioserver /system/bin/audioserver
+    class core
+    user audioserver
+    # media gid needed for /dev/fm (radio) and for /data/misc/media (tee)
+#ifndef VENDOR_EDIT
+#Zhihao.Li@PSW.MM.AudioServer.FrameWork.1067244, 2017/08/09, Modify for pcm dump, enable sdcard write
+    #group audio camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct wakelock
+#else VENDOR_EDIT
+    group audio camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct wakelock readproc sdcard_rw
+#endif VENDOR_EDIT
+    capabilities BLOCK_SUSPEND
+    ioprio rt 4
+    writepid /dev/cpuset/foreground/tasks /dev/stune/foreground/tasks
+    onrestart restart vendor.audio-hal-2-0
+    onrestart restart vendor.audio-hal-4-0-msd
+    # Keep the original service name for backward compatibility when upgrading
+    # O-MR1 devices with framework-only.
+    onrestart restart audio-hal-2-0
+
+on property:vts.native_server.on=1
+    stop audioserver
+on property:vts.native_server.on=0
+    start audioserver
+
+on init
+    mkdir /dev/socket/audioserver 0775 audioserver audioserver

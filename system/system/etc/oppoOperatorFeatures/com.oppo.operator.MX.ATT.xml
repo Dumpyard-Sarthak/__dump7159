@@ -1,0 +1,25 @@
+<!-- This file is used by Exp Region: IR.  DO NOT MODIFY. -->
+<permissions>
+  <feature name="coloros.customize.systemui.signal_layout_att" />
+  <feature name="oppo.contacts.speeddial" />
+  <feature name="coloros.customize.contacts.speed_dial_consumer_hotline" />
+  <feature name="oppo.mms.replace.google.mms"/>
+  <feature name="oppo.default.sms.application.google.messages"/>
+  <feature name="oppo.commcenter.mms.remove.oppo.mms"/>
+  <feature name="oppo.phone.hide.clir.number" />
+  <feature name="oppo.commcenter.lockassistant.restrict.auto.access.server" />
+  <feature name="oppo.commcenter.lockassistant.support.local.lock" />
+  <feature name="coloros.customize.contacts.show_sdn_more" />
+  <feature name="oppo.phone.forbid.edit.voicemail.number" />
+  <feature name="coloros.customize.phone.callforward_to_operator"/>
+  <feature name="oppo.commcenter.phone.clear.voicemail.when.dial" />
+  <feature name="coloros.customize.simsettings.sim_card_type_detect"/>
+    <feature name="oppo.launcher.overlay.google_assistant" />
+    <feature name="oppo.launcher.draw_mode.notload.no_position_app" />
+    <feature name="oppo.customize.hardware_software_version_show" />
+    <feature name="coloros.customize.settings.support.imsi" />
+    <feature name="coloros.customize.settings.support.sms_number" />
+    <feature name="oppo.customize.default_language_mx_es.support"/>
+    <feature name="coloros.customize.settings.support.ringtone_customize" />
+    <feature name="coloros.customize.settings.support.ringtone_change_by_sim" />
+</permissions>

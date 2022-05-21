@@ -1,0 +1,25 @@
+service hypnusd /system/bin/hypnusd
+	class main
+	user system
+	group system readproc root
+	capabilities SYS_NICE
+	disabled
+
+on property:sys.boot_completed=1 && property:persist.sys.hypnus.daemon.enable=0
+	stop hypnusd
+
+on property:sys.boot_completed=1 && property:persist.sys.hypnus.daemon.enable=1
+	start hypnusd
+
+chown system system /dev/hypnus
+chown system system /sys/devices/system/cpu/cpu0/sched_load_boost
+chown system system /sys/devices/system/cpu/cpu1/sched_load_boost
+chown system system /sys/devices/system/cpu/cpu2/sched_load_boost
+chown system system /sys/devices/system/cpu/cpu3/sched_load_boost
+chown system system /sys/devices/system/cpu/cpu4/sched_load_boost
+chown system system /sys/devices/system/cpu/cpu5/sched_load_boost
+chown system system /sys/devices/system/cpu/cpu6/sched_load_boost
+chown system system /sys/devices/system/cpu/cpu7/sched_load_boost
+chown system system /sys/devices/system/cpu/cpu0/cpufreq/schedutil/hispeed_load
+chown system system /sys/devices/system/cpu/cpu4/cpufreq/schedutil/hispeed_load
+

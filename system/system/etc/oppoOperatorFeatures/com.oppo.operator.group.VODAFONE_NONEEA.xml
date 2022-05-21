@@ -1,0 +1,7 @@
+<!-- This file is used by Exp Region: IR.  DO NOT MODIFY. -->
+<permissions>
+  <feature name="oppo.keyguard.show.pinpukremains" />
+  <feature name="oppo.keyguard.show.operator.notice" />
+  <feature name="coloros.customize.systemui.hide_data_when_disconnect" />
+  <feature name="oppo.launcher.draw_mode.notload.no_position_app" />
+</permissions>

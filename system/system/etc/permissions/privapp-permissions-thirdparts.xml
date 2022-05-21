@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+
+    <privapp-permissions package="fr.bouyguestelecom.agent.custo">
+        <permission name="android.permission.INSTALL_PACKAGES"/>
+        <permission name="android.permission.DELETE_PACKAGES"/>
+        <permission name="android.permission.WRITE_SECURE_SETTINGS"/>
+        <permission name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"/>
+    </privapp-permissions>
+
+    <privapp-permissions package="com.sfr.android.sfrjeux">
+        <permission name="android.permission.INSTALL_PACKAGES"/>
+    </privapp-permissions>
+
+    <privapp-permissions package="com.altice.android.myapps">
+        <permission name="android.permission.INSTALL_PACKAGES"/>
+    </privapp-permissions>
+
+    <privapp-permissions package="com.facebook.system">
+        <permission name="android.permission.REAL_GET_TASKS"/>
+        <permission name="android.permission.INSTALL_PACKAGES"/>
+        <permission name="android.permission.DELETE_PACKAGES"/>
+        <permission name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"/>
+    </privapp-permissions>
+
+    <privapp-permissions package="com.facebook.services">
+        <permission name="android.permission.CHANGE_DEVICE_IDLE_TEMP_WHITELIST"/>
+    </privapp-permissions>
+
+    <!--Kang.Li@PSW.AD.OppoCommonSoft, 2020/03/02, Add privapp permission for xcap&parentalcontrols begain-->
+    <privapp-permissions package="jp.softbank.mb.xcap">
+        <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+    </privapp-permissions>
+
+    <privapp-permissions package="jp.softbank.mb.parentalcontrols">
+        <permission name="android.permission.CONTROL_LOCATION_UPDATES"/>
+        <permission name="android.permission.REAL_GET_TASKS"/>
+        <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+        <permission name="android.permission.MODIFY_PHONE_STATE"/>
+        <permission name="android.permission.MANAGE_USERS"/>
+        <permission name="android.permission.READ_LOGS"/>
+        <permission name="android.permission.PACKAGE_USAGE_STATS"/>
+        <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
+        <permission name="android.permission.STOP_APP_SWITCHES"/>
+    </privapp-permissions>
+    <!--Kang.Li@PSW.AD.OppoCommonSoft, 2020/03/02 end-->
+
+    <!--Kang.Li@PSW.AD.OppoCommonSoft, 2020/03/16, Add privapp permission for flcrlap&passwordmanager begain-->
+    <privapp-permissions package="jp.softbank.mb.flcrlap">
+        <permission name="android.permission.REBOOT" />
+    </privapp-permissions>
+
+    <privapp-permissions package="jp.softbank.mb.passwordmanager">
+        <permission name="android.permission.INTERACT_ACROSS_USERS"/>
+        <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+    </privapp-permissions>
+    <!--Kang.Li@PSW.AD.OppoCommonSoft, 2020/03/16 end-->
+
+    <!--Kang.Li@PSW.AD.OppoCommonSoft, 2020/03/18, Add privapp permission for nfcommunicator&portal&familysmile begain-->
+    <privapp-permissions package="com.access_company.android.nfcommunicator">
+        <permission name="com.access_company.android.nfcommunicator.permission.CEMOJI" />
+        <permission name="com.access_company.android.nfcommunicator.permission.UEMOJI" />
+        <permission name="com.android.vending.BILLING" />
+    </privapp-permissions>
+
+    <privapp-permissions package="jp.uqmobile.portal">
+        <permission name="com.access_company.android.nfcommunicator.permission.CEMOJI" />
+        <permission name="com.access_company.android.nfcommunicator.permission.UEMOJI" />
+        <permission name="com.android.vending.BILLING" />
+        <permission name="com.google.android.c2dm.permission.RECEIVE" />
+        <permission name="com.google.android.c2dm.intent.C2D_MESSAGE" />
+    </privapp-permissions>
+
+    <privapp-permissions package="com.kddi.familysmile.mvno">
+        <permission name="android.permission.REAL_GET_TASKS"/>
+        <permission name="android.permission.WRITE_MEDIA_STORAGE"/>
+    </privapp-permissions>
+    <!--Kang.Li@PSW.AD.OppoCommonSoft, 2020/03/18 end-->
+
+    <privapp-permissions package="com.orange.aura.oobe">
+        <permission name="android.permission.INSTALL_PACKAGES" />
+        <permission name="android.permission.PACKAGE_USAGE_STATS" />
+    </privapp-permissions>
+    <privapp-permissions package="com.orange.update">
+        <permission name="android.permission.WRITE_SECURE_SETTINGS"/>
+        <permission name="android.permission.INSTALL_PACKAGES"/>
+    </privapp-permissions>
+</permissions>
